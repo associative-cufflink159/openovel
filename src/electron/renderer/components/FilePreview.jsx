@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import { assetUrl } from "../../../lib/includePaths.js"
 import { CodeView } from "../lib/CodeView.jsx"
+import { useDraggable } from "../lib/useDraggable.js"
 
 function formatBytes(n) {
   const v = Number(n) || 0
@@ -14,6 +15,7 @@ function formatBytes(n) {
 // scroll preservation internally, so streaming-chapter re-renders no
 // longer reset the scroll position or repaint every line.
 export function FilePreview({ rel, onClose, dispatch }) {
+  const drag = useDraggable()
   const [data, setData] = useState(null)     // { text, size, truncated, ... } | null
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -64,8 +66,8 @@ export function FilePreview({ rel, onClose, dispatch }) {
 
   return (
     <div className="preview-backdrop" onClick={onClose}>
-      <div className="preview-modal" onClick={(e) => e.stopPropagation()}>
-        <header className="preview-header">
+      <div className="preview-modal" style={drag.style} onClick={(e) => e.stopPropagation()}>
+        <header className="preview-header" onPointerDown={drag.onHandleDown}>
           <div className="preview-header-left">
             <span className="preview-path">{rel}</span>
             {data && (

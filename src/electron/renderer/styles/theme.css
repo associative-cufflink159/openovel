@@ -4989,7 +4989,12 @@ html, body, #root {
   border-bottom: 1px solid var(--rule);
   background: var(--paper-lift);
   flex-shrink: 0;
+  /* Doubles as the modal's drag handle (useDraggable). */
+  cursor: grab;
+  user-select: none;
 }
+.preview-header:active { cursor: grabbing; }
+.preview-header button { cursor: pointer; }
 .preview-header-left {
   display: flex;
   align-items: baseline;
@@ -6734,7 +6739,11 @@ label.behavior-row:hover { background: rgba(17, 17, 16, 0.035); }
 .modal-head {
   padding: 22px 26px 14px;
   border-bottom: 1px solid var(--rule-soft);
+  /* Doubles as the modal's drag handle (useDraggable). */
+  cursor: grab;
+  user-select: none;
 }
+.modal-head:active { cursor: grabbing; }
 .modal-title {
   margin: 0 0 6px;
   font-family: var(--font-sans);

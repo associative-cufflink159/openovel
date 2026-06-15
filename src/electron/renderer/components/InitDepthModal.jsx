@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
+import { useDraggable } from "../lib/useDraggable.js"
 
 // Modal that pops on the first new-story flow. Asks the user to pick an
 // initialization depth: zero / standard / deep. Choice is persisted via
@@ -25,6 +26,7 @@ const BADGES = { zero: "0", standard: "1", deep: "∞" }
 
 export function InitDepthModal({ pending, actions, onChosen }) {
   const { t } = useTranslation()
+  const drag = useDraggable()
   const [picking, setPicking] = useState(null)
   const [error, setError] = useState(null)
 
@@ -47,8 +49,8 @@ export function InitDepthModal({ pending, actions, onChosen }) {
 
   return (
     <div className="modal-backdrop">
-      <div className="modal-shell init-depth-modal">
-        <header className="modal-head">
+      <div className="modal-shell init-depth-modal" style={drag.style}>
+        <header className="modal-head" onPointerDown={drag.onHandleDown}>
           <h2 className="modal-title">{t("initDepth.title")}</h2>
           <p className="modal-sub">{t("initDepth.subtitle")}</p>
         </header>
