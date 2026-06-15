@@ -1,3 +1,18 @@
 {
-  "starters": []
+  "starters": [
+    {
+      "id": "smarter-than-codex-en",
+      "file": "smarter-than-codex-en.json",
+      "title": "Owen Novell: Smarter Than Codex?",
+      "lang": "en",
+      "order": 10
+    },
+    {
+      "id": "smarter-than-codex-zh",
+      "file": "smarter-than-codex-zh.json",
+      "title": "重生之你还有 Codex 聪明？",
+      "lang": "zh",
+      "order": 10
+    }
+  ]
 }
