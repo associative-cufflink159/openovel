@@ -1,22 +1,23 @@
-# openovel
-
 <p align="center">
-  <img src="./assets/hero.webp" alt="openovel - dual-loop runtime for interactive fiction" width="100%" />
+  <img src="./assets/hero.webp" alt="Openovel" width="760" />
 </p>
 
 <p align="center">
-  <img src="./assets/screenshot.png" alt="openovel Electron app showing a running interactive fiction scene" width="100%" />
+  <strong>Local-first AI interactive fiction: fast foreground narration, steady background worldkeeping.</strong>
+</p>
+
+<p align="center">
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#why-openovel">Why openovel</a> ·
+  <a href="#how-it-works">How it works</a> ·
+  <a href="./README.zh-CN.md">中文</a>
 </p>
 
 openovel is an open-source, local-first AI interactive fiction app: you play in real time while a background agent keeps continuity, memory, and world state up to date in plain files — a file-native, self-hosted alternative to cloud AI-fiction tools.
 
 It is built around a **dual-loop** design. A fast foreground narrator answers the reader immediately; an asynchronous **background brain** maintains durable story knowledge. By default that brain is a small **resident team** of specialized agents — a Showrunner coordinator plus World Keeper, Director, Card Manager, and Memory agents (and feature-gated render / image / music agents) — with a single **Storykeeper** agent as the fallback (`OPENOVEL_RESIDENT_TEAM=0`). The two loops communicate through Markdown / JSON / JSONL files, with no vector store, no RAG layer, and no graph database.
 
-Status: **Demo phase**. The app is usable end-to-end, but APIs and on-disk layouts may still change between iterations. It is not versioned as a stable downstream dependency yet.
-
-**Platform support:** development and testing happen primarily on **macOS**. The Windows and Linux builds are produced but only lightly tested, so expect rough edges there for now — platform-specific bug reports are welcome.
-
-> 中文版本: [`README.zh-CN.md`](./README.zh-CN.md)
+Status: **Demo phase**. The app is usable end-to-end, but APIs and on-disk layouts may still change between iterations. It is not versioned as a stable downstream dependency yet. Development and testing happen primarily on **macOS**; Windows and Linux builds are produced but only lightly tested.
 
 ## Why openovel
 
@@ -52,6 +53,12 @@ I wake up in the abandoned ferry terminal and look around.
 ```
 
 The narrator answers in seconds. The background brain continues asynchronously, so the next turn benefits from updated continuity without blocking the current one.
+
+## Preview
+
+<p align="center">
+  <img src="./assets/screenshot.png" alt="openovel Electron app showing a running interactive fiction scene" width="860" />
+</p>
 
 ## How it works
 
@@ -229,7 +236,7 @@ npm run eval:tms:prepare && npm run eval:tms                       # Tell-Me-A-S
 openovel is an open-source, local-first AI interactive fiction runtime. A fast foreground narrator responds to the reader in seconds, while an asynchronous background agent team keeps continuity, memory, and world state in plain Markdown / JSON files.
 
 **How is it different from AI Dungeon or SillyTavern?**
-openovel runs locally and stores everything as ordinary files — no vector store, no RAG, no cloud lock-in. Its dual-loop design separates a fast, tool-free narrator from a slower, tool-equipped background team, so the world stays consistent across long sessions.
+Two things — architecture and hosting. **Architecture:** most AI-fiction tools are *single-loop* (you send a message, the model replies, and continuity is whatever gets stuffed into the context window — lorebooks, summaries, vector RAG, mostly hand-configured). openovel is *dual-loop*: a fast, tool-free narrator answers in seconds while an asynchronous background agent team — Showrunner, World Keeper, Director, Card Manager, Memory — keeps world state, continuity, and memory in plain files on its own. The world's source of truth lives on disk and is maintained automatically, not crammed into the prompt or hand-authored as lorebooks, so it stays consistent across long sessions. **Hosting:** unlike cloud services such as AI Dungeon, openovel is open-source and local-first — bring your own model key, and your story never leaves your machine.
 
 **Is my data private? Where is it stored?**
 Your story, memory, and settings stay on your machine, under `story/` and `~/.openovel/`. openovel only contacts the model provider you configure; nothing else leaves your computer.

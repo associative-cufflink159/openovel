@@ -1,22 +1,23 @@
-# openovel
-
 <p align="center">
-  <img src="./assets/hero.webp" alt="openovel - 交互小说的双速运行时" width="100%" />
+  <img src="./assets/hero.webp" alt="Openovel" width="760" />
 </p>
 
 <p align="center">
-  <img src="./assets/screenshot.png" alt="openovel Electron 应用运行互动小说场景的截图" width="100%" />
+  <strong>本地优先的 AI 交互式小说：前台叙述够快，后台世界够稳。</strong>
+</p>
+
+<p align="center">
+  <a href="#快速开始">快速开始</a> ·
+  <a href="#为什么是-openovel">为什么是 openovel</a> ·
+  <a href="#工作原理">工作原理</a> ·
+  <a href="./README.md">English</a>
 </p>
 
 openovel 是一个开源、本地优先的 AI 交互式小说应用：读者实时游玩，后台 Agent 同时把连续性、记忆和世界状态写进普通文件里——一个文件原生、可自托管的云端 AI 小说工具替代方案。
 
 它的核心是**双循环**设计。快速的前台叙述器立即回应读者；异步的**后台大脑**维护持久故事知识。默认情况下这个大脑是一支由专职 Agent 组成的**常驻团队**——一个 Showrunner 协调者，加上 World Keeper、Director、Card Manager、Memory 等子 Agent（以及按功能开关启用的渲染 / 图像 / 音乐 Agent）——并以单个 **Storykeeper** Agent 作为回退（`OPENOVEL_RESIDENT_TEAM=0`）。两个循环通过 Markdown / JSON / JSONL 文件通信，没有向量库，没有 RAG 层，也没有图数据库。
 
-状态：**Demo 阶段**。应用已经可以端到端使用，但 API 和磁盘布局仍可能随迭代调整。它还不是一个稳定的下游依赖版本。
-
-**平台支持：** 目前主要在 **macOS** 上开发和测试。Windows / Linux 构建虽然能产出，但测试覆盖很少，现阶段可能存在各种问题——欢迎反馈平台相关的 bug。
-
-> English version: [`README.md`](./README.md)
+状态：**Demo 阶段**。应用已经可以端到端使用，但 API 和磁盘布局仍可能随迭代调整。它还不是一个稳定的下游依赖版本。目前主要在 **macOS** 上开发和测试；Windows / Linux 构建虽然能产出，但测试覆盖很少。
 
 ## 为什么是 openovel
 
@@ -52,6 +53,12 @@ npm run electron
 ```
 
 叙述器秒级回应。后台大脑继续在后台工作，下一回合能继承更新后的连续性，但当前回合不会被它阻塞。
+
+## 界面预览
+
+<p align="center">
+  <img src="./assets/screenshot.png" alt="openovel Electron 应用运行互动小说场景的截图" width="860" />
+</p>
 
 ## 工作原理
 
@@ -229,7 +236,7 @@ npm run eval:tms:prepare && npm run eval:tms                       # Tell-Me-A-S
 openovel 是一个开源、本地优先的 AI 交互式小说运行时。快速的前台叙述器在数秒内回应读者，异步的后台 Agent 团队则把连续性、记忆和世界状态维护在纯 Markdown / JSON 文件里。
 
 **它和 AI Dungeon、SillyTavern 有什么不同？**
-openovel 完全在本地运行，所有内容都存为普通文件——没有向量库、没有 RAG、不绑定云端。它的双循环设计把「快速、无工具的叙述器」和「较慢、带工具的后台团队」分开，让世界在长时间游玩中保持一致。
+主要是两点——架构和托管。**架构上：**大多数 AI 小说工具是*单循环*的(你发一条、模型回一条,连续性全靠在发送时往上下文窗口里塞东西——lorebook、摘要、向量 RAG,而且大多要手动配置)。openovel 是*双循环*:快速、无工具的前台叙述器在数秒内回应,同时一支异步的后台 Agent 团队——Showrunner、World Keeper、Director、Card Manager、Memory——自行把世界状态、连续性和记忆维护在纯文件里。世界的「真相」存在磁盘上、自动维护,而不是塞进 prompt 或靠你手写 lorebook,因此长时间游玩也能保持一致。**托管上：**不同于 AI Dungeon 这类云服务,openovel 开源且本地优先——自带模型 key,你的故事永远不离开本机。
 
 **我的数据私密吗？存在哪里？**
 你的故事、记忆和设置都留在本机的 `story/` 和 `~/.openovel/` 下。openovel 只会访问你配置的模型 provider，其它任何数据都不会离开你的电脑。
