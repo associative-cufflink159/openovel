@@ -25,14 +25,14 @@
     "build:electron": "node scripts/build-electron.mjs",
     "electron": "npm run build:electron && node scripts/patch-electron-dev-icon.mjs && electron .",
     "electron:dev": "OPENOVEL_ELECTRON_DEVTOOLS=1 npm run build:electron && node scripts/patch-electron-dev-icon.mjs && electron .",
-    "dist": "npm run build:electron && electron-builder",
-    "dist:mac": "npm run build:electron && electron-builder --mac",
+    "dist": "npm run build:electron && electron-builder --publish never",
+    "dist:mac": "npm run build:electron && electron-builder --mac --publish never",
     "dist:mac:portable": "node scripts/mac-portable.mjs arm64",
     "dist:mac:portable:x64": "node scripts/mac-portable.mjs x64",
     "dist:mac:portable:universal": "node scripts/mac-portable.mjs universal",
     "mac:unquarantine": "node scripts/macos-gatekeeper.mjs",
-    "dist:win": "npm run build:electron && electron-builder --win",
-    "dist:linux": "npm run build:electron && electron-builder --linux",
+    "dist:win": "npm run build:electron && electron-builder --win --publish never",
+    "dist:linux": "npm run build:electron && electron-builder --linux --publish never",
     "start": "npm run electron",
     "config:doctor": "node src/config/doctor.js",
     "provider:doctor": "node src/provider/doctor.js",
@@ -45,7 +45,7 @@
     "eval:probe-worker": "node src/eval/probeWorker.js",
     "eval:tms:prepare": "node src/eval/tellMeAStoryAdapter.js prepare",
     "eval:tms": "node src/eval/tellMeAStoryAdapter.js run",
-    "test": "OPENOVEL_RESIDENT_TEAM=0 node --test --test-force-exit"
+    "test": "node scripts/run-tests.mjs"
   },
   "engines": {
     "node": ">=20"

@@ -64,6 +64,7 @@ await rm(zipPath, { force: true })
 await run("./node_modules/.bin/electron-builder", [
   "--mac", "dir",
   `--${arch}`,
+  "--publish", "never",
 ], { env: { ...process.env, CSC_IDENTITY_AUTO_DISCOVERY: "false" } })
 
 if (!(await exists(appPath))) {
