@@ -57,7 +57,7 @@ npm run electron
 ## 界面预览
 
 <p align="center">
-  <img src="./assets/screenshot.png" alt="openovel Electron 应用运行互动小说场景的截图" width="860" />
+  <img src="./assets/screenshot.webp" alt="openovel Electron 应用运行互动小说场景的截图" width="860" />
 </p>
 
 ## 工作原理

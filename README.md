@@ -57,7 +57,7 @@ The narrator answers in seconds. The background brain continues asynchronously, 
 ## Preview
 
 <p align="center">
-  <img src="./assets/screenshot.png" alt="openovel Electron app showing a running interactive fiction scene" width="860" />
+  <img src="./assets/screenshot.webp" alt="openovel Electron app showing a running interactive fiction scene" width="860" />
 </p>
 
 ## How it works
