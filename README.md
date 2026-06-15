@@ -93,24 +93,13 @@ Most surface features are toggles in Settings → Behavior. Opt-in experimental 
 
 Model-authored rich content is sandboxed: block templates are HTML filtered to a closed tag/attribute allowlist and CSS passed through a property allowlist before rendering (never `innerHTML`), and the narrator never sees raw CSS. Block *kinds* are open — the model composes ordinary HTML — while the capability envelope stays closed.
 
-## Providers and configuration
+## Settings and providers
 
-Foreground and background calls go through `src/provider/provider.js`. Providers are metadata plugins under `src/provider/plugins/`: an OpenAI-compatible chat endpoint, price metadata, streaming preference, and capability flags. No vendor SDK is bundled.
+For normal use, configure models inside the desktop app. First launch walks through two steps: choose a language, then connect an LLM by pasting an API key. Later, use the gear icon → **AI → API Keys** to pick a provider, save the key, and run **Test connection**.
 
-Built-in providers:
+Simple settings mode keeps this to the common path. Advanced mode adds custom OpenAI-compatible or Anthropic-format endpoints, model routing, per-agent routing, and model catalog edits. Optional services such as search, image generation, speech, behavior toggles, display, and environment paths live in the adjacent Settings tabs.
 
-| Provider | Vendor | Default role | Cost model |
-| --- | --- | --- | --- |
-| `kimi-code` | Moonshot Kimi | Foreground default | Subscription / free tier |
-| `mimo-token-plan-{cn,sgp,ams}` | Xiaomi MiMo | Default fallback chain | Token plan |
-| `mimo-api` | Xiaomi MiMo | Pay-as-you-go fallback | Per-token |
-| `deepseek` | DeepSeek | Pay-as-you-go fallback | Per-token |
-| `openrouter` | OpenRouter | Pay-as-you-go fallback | Per-token |
-| `anthropic` | Anthropic (Claude) | Pay-as-you-go fallback | Per-token |
-
-The default route is `kimi-code → mimo-token-plan-{sgp,cn,ams}` — all free or token-plan tiers. Pay-as-you-go providers join the fallback chain only when `AI_ALLOW_PAID_FALLBACK=true`. You can also define your own OpenAI-compatible or Anthropic-format endpoints (Settings → API Keys → advanced) as `custom:<name>` providers and assign them per model profile.
-
-Most users should configure keys in the Electron Settings UI. The UI saves secrets and toggles to `$OPENOVEL_HOME/settings.local.json` (default `~/.openovel/settings.local.json`) and mirrors them into the app environment at startup. General JSONC config files layer in this order, with later entries winning:
+The Settings UI saves secrets and toggles to `$OPENOVEL_HOME/settings.local.json` (default `~/.openovel/settings.local.json`) and mirrors them into the app environment at startup. CLI and eval tools read the same settings. General JSONC config files layer in this order, with later entries winning:
 
 ```text
 defaults
@@ -126,7 +115,7 @@ Useful diagnostics:
 
 ```bash
 npm run config:doctor       # show settings layering + effective config
-npm run provider:doctor     # show provider + model resolution for every profile
+npm run provider:doctor     # show provider + model resolution when debugging routing
 ```
 
 ## Project structure
@@ -242,7 +231,7 @@ Two things — architecture and hosting. **Architecture:** most AI-fiction tools
 Your story, memory, and settings stay on your machine, under `story/` and `~/.openovel/`. openovel only contacts the model provider you configure; nothing else leaves your computer.
 
 **Which AI models does it support?**
-Any OpenAI-compatible or Anthropic-format endpoint. Built-in providers include Moonshot Kimi, Xiaomi MiMo, DeepSeek, OpenRouter, and Anthropic, plus user-defined custom providers.
+Use Settings → AI → API Keys to pick a built-in option or add a custom OpenAI-compatible / Anthropic-format endpoint.
 
 **What platforms does it run on?**
 A cross-platform Electron desktop app for macOS, Windows, and Linux. It is primarily tested on macOS today.
