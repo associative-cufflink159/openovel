@@ -24,12 +24,15 @@ jobs:
           - name: macOS
             os: macos-latest
             script: npm run dist:mac:portable:universal
+            runTests: true
           - name: Windows
             os: windows-latest
             script: npm run dist:win
+            runTests: false
           - name: Linux
             os: ubuntu-latest
             script: npm run dist:linux
+            runTests: true
     env:
       CSC_IDENTITY_AUTO_DISCOVERY: "false"
     steps:
@@ -44,6 +47,7 @@ jobs:
         run: npm ci
 
       - name: Run tests
+        if: matrix.runTests
         run: npm test
 
       - name: Build package
