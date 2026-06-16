@@ -1,5 +1,5 @@
 import { build, stop } from "esbuild"
-import { copyFile, cp, mkdir, rm, writeFile } from "node:fs/promises"
+import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises"
 import path from "node:path"
 import process from "node:process"
 import { fileURLToPath } from "node:url"
@@ -19,32 +19,53 @@ await cp(path.join(root, "site"), out, { recursive: true })
 await cp(path.join(root, "assets"), path.join(out, "assets"), { recursive: true })
 await writeFile(path.join(out, ".nojekyll"), "")
 
-await build({
+const toWebPath = (file) => `./${path.relative(appOut, file).split(path.sep).join("/")}`
+const entryOutput = (metafile, entryPoint, extension) => {
+  const wanted = path.resolve(entryPoint)
+  const output = Object.entries(metafile.outputs).find(([, meta]) => (
+    meta.entryPoint
+    && path.resolve(root, meta.entryPoint) === wanted
+    && meta.bytes > 0
+  ))
+  if (!output) throw new Error(`Could not find ${extension} output for ${entryPoint}`)
+  return toWebPath(path.join(root, output[0]))
+}
+
+const jsBuild = await build({
   entryPoints: [path.join(src, "main.web.jsx")],
   bundle: true,
   format: "esm",
   platform: "browser",
   target: "chrome120",
   outdir: appOut,
-  entryNames: "bundle",
+  entryNames: "[name]-[hash]",
   chunkNames: "chunks/[name]-[hash]",
   splitting: true,
   jsx: "automatic",
   loader: { ".js": "jsx", ".jsx": "jsx", ".png": "dataurl", ".txt": "text" },
   define: { "process.env.NODE_ENV": '"production"' },
+  metafile: true,
   sourcemap: false,
   logLevel: "warning",
 })
 
-await build({
+const cssBuild = await build({
   entryPoints: [path.join(src, "styles/theme.css")],
   bundle: true,
-  outfile: path.join(appOut, "bundle.css"),
+  outdir: appOut,
+  entryNames: "[name]-[hash]",
   loader: { ".css": "css" },
+  metafile: true,
   logLevel: "warning",
 })
 
-await copyFile(path.join(src, "index.web.html"), path.join(appOut, "index.html"))
+const jsAsset = entryOutput(jsBuild.metafile, path.join(src, "main.web.jsx"), ".js")
+const cssAsset = entryOutput(cssBuild.metafile, path.join(src, "styles/theme.css"), ".css")
+const appHtml = (await readFile(path.join(src, "index.web.html"), "utf8"))
+  .replace("./bundle.css", cssAsset)
+  .replace("./bundle.js", jsAsset)
+
+await writeFile(path.join(appOut, "index.html"), appHtml)
 
 console.log(`pages site built in ${Date.now() - t0}ms -> ${path.relative(root, out)}`)
 
