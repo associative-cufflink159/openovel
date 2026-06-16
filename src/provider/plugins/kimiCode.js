@@ -9,6 +9,9 @@ import { settingsEnv } from "../../config/settings.js"
 function kimiThinkingTransform(body, { thinking } = {}) {
   const raw = String(settingsEnv().KIMI_THINKING || "off").toLowerCase()
   const next = { ...body }
+  // Kimi For Coding currently rejects arbitrary temperatures and requires
+  // exactly 0.6, including diagnostic pings that ask for deterministic output.
+  next.temperature = 0.6
   // Per-call hint wins over the env default. "disabled"/"enabled" force the
   // call regardless of KIMI_THINKING; undefined falls back to the env default.
   const envOn = !(raw === "off" || raw === "disabled" || raw === "" || raw === "no" || raw === "false")

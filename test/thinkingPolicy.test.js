@@ -21,7 +21,8 @@ test("kimi bodyTransform: per-call hint overrides the KIMI_THINKING env default"
   try {
     // env says off, but an agent call hints enabled → thinking on
     process.env.KIMI_THINKING = "off"
-    let body = kimiCodeProvider.bodyTransform({ model: "kimi-for-coding" }, { thinking: "enabled" })
+    let body = kimiCodeProvider.bodyTransform({ model: "kimi-for-coding", temperature: 0 }, { thinking: "enabled" })
+    assert.equal(body.temperature, 0.6)
     assert.equal(body.thinking.type, "enabled")
     assert.ok(body.reasoning_effort)
     // env says high, but a narrator call hints disabled → thinking off
